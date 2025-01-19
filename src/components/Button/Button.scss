@@ -1,0 +1,44 @@
+.button {
+    width: 100%;
+    min-height: 32px;
+    font-size: 13px;
+    width: 200px;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    font-weight: 500;
+    min-width: 120px;
+    padding: 4px 8px;
+    cursor: pointer;
+    background-color: #22C55E;
+
+    &:focus {
+        background: #16A34A; 
+    }
+
+    &:hover {
+        background: #16A34A;
+        transition: 0.5s;
+    }
+
+    &[disabled] {
+        position: relative;
+        cursor: not-allowed;
+        background-color: #BBF7D0;
+        color: #ffffff;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+
+        &:hover {
+            box-shadow: none;
+            background-color: #BBF7D0;
+            box-shadow: none;
+        }
+
+        &:active {
+            border: none;
+        }
+
+    }
+}

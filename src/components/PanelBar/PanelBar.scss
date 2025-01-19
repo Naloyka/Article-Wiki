@@ -1,0 +1,12 @@
+.panel-bar {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #edeffb;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
