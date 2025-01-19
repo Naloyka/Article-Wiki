@@ -3,15 +3,20 @@ import Button from "../Button/Button";
 import AuthorAvatar from "../AuthorAvatar/AuthorAvatar";
 import './PanelBar.scss'
 
-function PanelBar() {
+interface PanelBarProps {
+    setIsModal: (isOpen: boolean) => void
+}
 
-    const [isModal, setIsModal] = useState(false)
+function PanelBar({
+    setIsModal
+}: PanelBarProps) {
+
 
     return (
         <aside className="panel-bar">
             <Button
                 content='Добавить новую статью'
-                onClick={(e) => setIsModal(!isModal)}
+                onClick={() => setIsModal(true)}
             />
             <AuthorAvatar
                 author='Елена Налоева'

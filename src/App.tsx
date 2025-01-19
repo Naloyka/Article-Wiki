@@ -1,7 +1,9 @@
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import { DecAction, IncAction, store, CounterId } from './store'
 import PanelBar from './components/PanelBar/PanelBar.tsx'
 import Article from './components/Article/Article.tsx'
+import ModalCreateArticle from './components/ModalCreaeArticle/ModalCreateArticleModalCreateArticle.tsx'
+import { storeArticle, ArticleType } from './storeArticle.ts'
 import './App.css'
 import './App.scss'
 
@@ -40,41 +42,44 @@ export { Counter }
 
 function App() {
 
+  const [, forseUpdate] = useReducer((x) => x + 1, 0)
+  const [isModal, setIsModal] = useState(false)
+
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      forseUpdate()
+    })
+    return unsubscribe
+  }, []);
+
 
   return (
-    <div className='main-page'>
-      <PanelBar />
+    <>
+      {isModal && <ModalCreateArticle
+        setIsModal={(e) => setIsModal(e)}
+      />}
 
-      <main className='main-page__content'>
-
-        <Article
-          title='Заголовок статьи'
-          author={'Елена Налоева'}
-          date={new Date()}
-          content={`
-        Парсинг сайтов имеет множество практических применений и может быть полезен в различных сферах. Вот некоторые из основных целей, для которых используется парсинг сайтов:
-        Анализ конкурентов
-        Парсинг сайтов позволяет получить данные о конкурентах, такие как цены, описание продуктов, акции, рейтинги и т. д. Эта информация может быть использована для анализа рынка, разработки стратегий ценообразования, определения конкурентных преимуществ и принятия управленческих решений.
-        Веб-скрапинг
-        `}
+      <div className='main-page'>
+        <PanelBar
+          setIsModal={(e) => setIsModal(e)}
         />
 
-        <Article
-          title='Заголовок статьи'
-          author={'Елена Налоева'}
-          date={new Date()}
-          content={`
-        Парсинг сайтов имеет множество практических применений и может быть полезен в различных сферах. Вот некоторые из основных целей, для которых используется парсинг сайтов:
-        Анализ конкурентов
-        Парсинг сайтов позволяет получить данные о конкурентах, такие как цены, описание продуктов, акции, рейтинги и т. д. Эта информация может быть использована для анализа рынка, разработки стратегий ценообразования, определения конкурентных преимуществ и принятия управленческих решений.
-        Веб-скрапинг
-        `}
-        />
-
-        <Counter counterId='first' />
-      </main>
-    </div>
-
+        <main className='main-page__content'>
+          {
+            storeArticle.getState().map(({ title, description }: ArticleType) => {
+              return <Article
+                key={title + description}
+                title={title}
+                author={'Елена Налоева'}
+                date={new Date()}
+                content={description}
+              />
+            })
+          }
+          <Counter counterId='first' />
+        </main>
+      </div>
+    </>
   )
 }
 

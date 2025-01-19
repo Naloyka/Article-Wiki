@@ -6,7 +6,7 @@ interface AuthorAvatarProps {
 }
 
 function AuthorAvatar({
-    author = 'Неизвестный автор',
+    author,
     size = 's'
 }: AuthorAvatarProps) {
 

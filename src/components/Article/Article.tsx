@@ -28,7 +28,7 @@ function Article({
                     {author}
                 </p>
                 <p className="article__date">
-                    <img src={calendar_icon} />{date?.toLocaleDateString('ru-ru')}
+                    <img src={calendar_icon} />{date?.toLocaleString('ru-ru')}
                 </p>
             </div>
             <header className="article__header">
