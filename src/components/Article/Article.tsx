@@ -1,24 +1,45 @@
 import React from "react";
+import { FC } from "react";
 import calendar_icon from './img/calendar.svg'
 import AuthorAvatar from "../AuthorAvatar/AuthorAvatar.tsx";
+import { ArticleType } from "../../storeArticle.ts";
 import './Article.scss'
 
-interface ArticleProps {
+type SetCurrentArticle = (article: ArticleType) => void;
+type SetIsModal = (e: boolean) => void
+
+type ArticleProps = {
     author: string;
     content: string,
     title: string,
-    date: Date
+    date: Date,
+    id: string,
+    setCurrentArticle: SetCurrentArticle,
+    setIsModal: SetIsModal
 }
 
-function Article({
+const Article: FC<ArticleProps> = ({
     title,
     author,
     content,
-    date
-}: ArticleProps) {
+    date,
+    id,
+    setCurrentArticle,
+    setIsModal
+}) => {
 
     return (
-        <article className="article">
+        <article className="article"
+            onClick={() => {
+                setCurrentArticle({
+                    title: title,
+                    description: content,
+                    date: date,
+                    id: id
+                })
+                setIsModal(true)
+            }}
+        >
             <div className="article__info">
                 <p className="article__author">
                     <AuthorAvatar

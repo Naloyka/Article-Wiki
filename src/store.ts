@@ -24,7 +24,8 @@ export type DecAction = {
     }
 }
 
-type Action = IncAction | DecAction
+
+type Action = IncAction | DecAction 
 
 const initialCounterState: CounterState = { counter: 0 }
 const initialState: State = {

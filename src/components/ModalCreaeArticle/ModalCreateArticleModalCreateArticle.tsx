@@ -2,26 +2,47 @@ import React, { useState } from 'react'
 import Input from '../Input/Input';
 import Textarea from '../Textarea/Textarea';
 import Button from '../Button/Button.tsx';
-import { storeArticle, CreateAction } from '../../storeArticle.ts';
+import { storeArticle, CreateAction, EditAction } from '../../storeArticle.ts';
+import { ArticleType } from '../../storeArticle.ts';
+import { useId } from 'react'
 import './ModalCreateArticle.scss'
 
 interface ModalCreateArticleProps {
+    currentArticle: ArticleType | null,
     setIsModal: (isOpen: boolean) => void;
 }
 
 const ModalCreateArticle = ({
+    currentArticle,
     setIsModal
-}: ModalCreateArticleProps) => {
+}: ModalCreateArticleProps) : JSX.Element => {
 
-    const [titleArticle, setTitleArticle] = useState('')
-    const [descriptionArticle, setDescriptionArticle] = useState('')
+    const new_id: string = useId()
+    const [id, setId] = useState(currentArticle?.id || '')
+    const [date, setDate] = useState<Date>(currentArticle?.date || new Date())
+    const [titleArticle, setTitleArticle] = useState<string>(currentArticle?.title || '')
+    const [descriptionArticle, setDescriptionArticle] = useState<string>(currentArticle?.description || '')
 
     const saveArticle = () => {
-        storeArticle.dispatch({ type: 'create', payload: { 
-            title: titleArticle,
-            description: descriptionArticle,
-            date: new Date()
-         } } satisfies CreateAction)
+        storeArticle.dispatch({
+            type: 'create', payload: {
+                title: titleArticle,
+                description: descriptionArticle,
+                date: new Date(),
+                id: new_id
+            }
+        } satisfies CreateAction)
+    }
+
+    const editArticle = () => {
+        storeArticle.dispatch({
+            type: 'edit', payload: {
+                id: id,
+                title: titleArticle,
+                description: descriptionArticle,
+                date: date
+            }
+        } satisfies EditAction)
     }
 
     return (
@@ -46,7 +67,11 @@ const ModalCreateArticle = ({
                 <Button
                     content='Сохранить'
                     onClick={(e) => {
-                        saveArticle()
+                        if (currentArticle?.title) {
+                            editArticle()
+                        } else {
+                            saveArticle()
+                        }
                         setIsModal(false)
                     }}
                 />
